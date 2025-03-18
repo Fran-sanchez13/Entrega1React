@@ -10,7 +10,7 @@ import {
   TaskItemStyled, 
   DeleteButtonStyled, 
   ClearButtonStyled 
-  } from "../styles/StyledComponents";
+  } from "../styles/styledComponents";
 
 
 const TaskApp = () => {
@@ -49,7 +49,7 @@ const TaskApp = () => {
         ))}
       </TaskListStyled>
 
-      {tasks.length > 0 && <ClearButtonStyled onClick={clearTasks}>Eliminar todas</ClearButtonStyled>}
+      {tasks.length > 0 && <ClearButtonStyled onClick={clearTasks}>Eliminar todas las tareas</ClearButtonStyled>}
     </TaskContainerStyled>
   );
 };
