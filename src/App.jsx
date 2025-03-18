@@ -1,8 +1,11 @@
-import TaskApp from "./inputTarea/TaskApp"
+import TaskApp from "./components/TaskApp"
+import { TaskProvider } from "./context/taskContext"
 
 function App() {
   return(
-  <TaskApp/>
+    <TaskProvider>
+          <TaskApp/>
+    </TaskProvider>
   )
 }
 
