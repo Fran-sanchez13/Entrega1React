@@ -1,26 +1,33 @@
 import React, { useState } from "react";
-import { useTasks } from "../context/taskContext"; 
+import { useDispatch, useSelector } from "react-redux";
+import { addTask, removeTask, clearTasks } from "../redux/taskSlice";
 import {
   TaskContainerStyled,
-  TitleStyled, 
-  InputContainerStyled, 
-  InputStyled, 
-  ButtonStyled, 
-  TaskListStyled, 
-  TaskItemStyled, 
-  DeleteButtonStyled, 
-  ClearButtonStyled 
-  } from "../styles/styledComponents";
-
+  TitleStyled,
+  InputContainerStyled,
+  InputStyled,
+  ButtonStyled,
+  TaskListStyled,
+  TaskItemStyled,
+  DeleteButtonStyled,
+  ClearButtonStyled,
+} from "../styles/styledComponents";
 
 const TaskApp = () => {
-  const { tasks, addTask, removeTask, clearTasks, error } = useTasks();
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.tasks);
   const [taskInput, setTaskInput] = useState("");
+  const [error, setError] = useState("");
 
   const handleAddTask = () => {
     if (taskInput.trim() !== "") {
-      addTask(taskInput.trim());
-      setTaskInput("");
+      if (tasks.includes(taskInput.trim())) {
+        setError("Tarea existente");
+      } else {
+        dispatch(addTask(taskInput.trim()));
+        setTaskInput("");
+        setError("");
+      }
     }
   };
 
@@ -44,12 +51,18 @@ const TaskApp = () => {
         {tasks.map((task, index) => (
           <TaskItemStyled key={index}>
             <span>{task}</span>
-            <DeleteButtonStyled onClick={() => removeTask(task)}>Eliminar</DeleteButtonStyled>
+            <DeleteButtonStyled onClick={() => dispatch(removeTask(task))}>
+              Eliminar
+            </DeleteButtonStyled>
           </TaskItemStyled>
         ))}
       </TaskListStyled>
 
-      {tasks.length > 0 && <ClearButtonStyled onClick={clearTasks}>Eliminar todas las tareas</ClearButtonStyled>}
+      {tasks.length > 0 && (
+        <ClearButtonStyled onClick={() => dispatch(clearTasks())}>
+          Eliminar todas las tareas
+        </ClearButtonStyled>
+      )}
     </TaskContainerStyled>
   );
 };
